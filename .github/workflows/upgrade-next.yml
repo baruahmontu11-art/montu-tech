@@ -10,11 +10,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
       - name: Upgrade Next.js
         run: |
           npm install next@14.2.35 eslint-config-next@14.2.35
-          grep -o '"next": "[^"]*"' package.json
+          node -e "console.log('next version:', require('./package.json').dependencies.next)"
           git status --short
       - name: Commit upgraded files
         run: |
