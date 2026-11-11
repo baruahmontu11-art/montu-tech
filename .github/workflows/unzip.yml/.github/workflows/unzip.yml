@@ -1,0 +1,24 @@
+name: Unzip project files
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unzip project
+        run: |
+          ls -la
+          unzip -o montu-tech.zip
+          rm montu-tech.zip
+          ls -la
+      - name: Commit extracted files
+        run: |
+          git config user.name "baruahmontu11-art"
+          git config user.email "baruahmontu11@gmail.com"
+          git add -A
+          git status --short
+          git commit -m "Extract montu-tech project files from zip" || echo "nothing to commit"
+          git push
