@@ -1,0 +1,27 @@
+name: Move project to repo root
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  move:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move montu-tech contents to root
+        run: |
+          ls -la montu-tech
+          shopt -s dotglob nullglob
+          mv montu-tech/* .
+          rmdir montu-tech
+          ls -la
+          test -f package.json && echo "package.json at root OK"
+          test -f next.config.js && echo "next.config.js at root OK"
+      - name: Commit moved files
+        run: |
+          git config user.name "baruahmontu11-art"
+          git config user.email "baruahmontu11@gmail.com"
+          git add -A
+          git status --short
+          git commit -m "Move montu-tech project files to repo root" || echo "nothing to commit"
+          git push
