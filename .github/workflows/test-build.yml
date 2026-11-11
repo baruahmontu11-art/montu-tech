@@ -1,0 +1,23 @@
+name: Test build with placeholder env
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+      META_GRAPH_API_VERSION: v21.0
+      TOKEN_ENCRYPTION_KEY: 8f3a9c1e5b7d2046a1e9f4c8b3d6072e5c7a1f9e3b8d4062d4e8a2c6f1b90357
+      NEXT_PUBLIC_APP_URL: https://montu-tech-production.up.railway.app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install and build
+        run: |
+          npm ci
+          npm run build
