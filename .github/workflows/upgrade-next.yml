@@ -1,0 +1,26 @@
+name: Upgrade Next.js to 14.2.35
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Upgrade Next.js
+        run: |
+          npm install next@14.2.35 eslint-config-next@14.2.35
+          grep -o '"next": "[^"]*"' package.json
+          git status --short
+      - name: Commit upgraded files
+        run: |
+          git config user.name "baruahmontu11-art"
+          git config user.email "baruahmontu11@gmail.com"
+          git add -A
+          git status --short
+          git commit -m "Upgrade Next.js to 14.2.35 (fix Railway security scan)" || echo "nothing to commit"
+          git push
