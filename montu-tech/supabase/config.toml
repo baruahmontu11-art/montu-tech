@@ -1,0 +1,31 @@
+# MONTU TECH — Supabase local config (minimal)
+# Full reference: https://supabase.com/docs/guides/cli/config
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+port = 9999
+# Email confirmation is ON in production; keep it on locally too
+# so the register -> verify flow is tested the same way.
+enable_signup = true
+# Site URL must match NEXT_PUBLIC_APP_URL in each environment.
+site_url = "http://localhost:3000"
+
+[storage]
+enabled = true
+# Bucket `support-documents` is created by the app / SQL below.
+# It must be PRIVATE — documents are served only via signed URLs.
+#   insert into storage.buckets (id, name, public) values ('support-documents','support-documents', false);

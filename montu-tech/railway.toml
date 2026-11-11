@@ -1,0 +1,23 @@
+# MONTU TECH — Railway deployment
+# Two services share this repo:
+#   1. "web"    — Next.js app  (npm run build / npm start)
+#   2. "worker" — scheduled-posts background worker (npm run worker)
+# Create both services from the same GitHub repo in Railway, then set the
+# start command per service (see RAILWAY_DEPLOY.md). railway.json above
+# carries the web service healthcheck; this file documents both services.
+
+[build]
+builder = "nixpacks"
+buildCommand = "npm run build"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/api/health"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+# Worker service (set in the Railway dashboard for the second service):
+#   buildCommand = "npm install"   (no Next.js build needed)
+#   startCommand = "npm run worker"
+#   healthcheck  = none (long-running process; Railway restarts it on failure)
